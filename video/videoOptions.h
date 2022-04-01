@@ -86,16 +86,16 @@ public:
      */
     enum WbMode
     {
-        GST_NVCAM_WB_MODE_OFF 				//(0): off
-        GST_NVCAM_WB_MODE_AUTO 				//(1): auto
-        GST_NVCAM_WB_MODE_INCANDESCENT 		//(2): incandescent
-        GST_NVCAM_WB_MODE_FLUORESCENT 		//(3): fluorescent
-        GST_NVCAM_WB_MODE_WARM_FLUORESCENT 	//(4): warm-fluorescent
-        GST_NVCAM_WB_MODE_DAYLIGHT 			//(5): daylight
-        GST_NVCAM_WB_MODE_CLOUDY_DAYLIGHT 	//(6): cloudy-daylight
-        GST_NVCAM_WB_MODE_TWILIGHT 			//(7): twilight
-        GST_NVCAM_WB_MODE_SHADE 			//(8): shade
-        GST_NVCAM_WB_MODE_MAN 				//(9): manual
+        GST_NVCAM_WB_MODE_OFF = 0,			//(0): off
+        GST_NVCAM_WB_MODE_AUTO,				//(1): auto
+        GST_NVCAM_WB_MODE_INCANDESCENT,		//(2): incandescent
+        GST_NVCAM_WB_MODE_FLUORESCENT, 		//(3): fluorescent
+        GST_NVCAM_WB_MODE_WARM_FLUORESCENT,	//(4): warm-fluorescent
+        GST_NVCAM_WB_MODE_DAYLIGHT, 		//(5): daylight
+        GST_NVCAM_WB_MODE_CLOUDY_DAYLIGHT, 	//(6): cloudy-daylight
+        GST_NVCAM_WB_MODE_TWILIGHT, 		//(7): twilight
+        GST_NVCAM_WB_MODE_SHADE, 			//(8): shade
+        GST_NVCAM_WB_MODE_MAN, 				//(9): manual
     };
 
     /**
