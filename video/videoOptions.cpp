@@ -24,6 +24,7 @@
 
 #include "logging.h"
 #include <strings.h>
+#include <string.h>
 
 
 // constructor
@@ -189,12 +190,10 @@ bool videoOptions::Parse( const char* URI, const commandLine& cmdLine, videoOpti
     saturation = cmdLine.GetFloat("saturation");
 
     //exposuretimerange
-    const char* exposuretimerangeStr = cmdLine.GetString("exposuretimerange");
-    exposuretimerange = exposuretimerangeStr;
+    exposuretimerange = strdup(cmdLine.GetString("exposuretimerange"));
 
     //gainrange
-    const char* gainrangeStr = cmdLine.GetString("exposuretimerange");
-    gainrange = gainrangeStr;
+    gainrange = strdup(cmdLine.GetString("exposuretimerange"));
 
     //exposurecompensation
     exposurecompensation = cmdLine.GetFloat("exposurecompensation");
