@@ -29,18 +29,25 @@
 // constructor
 videoOptions::videoOptions()
 {
-	width 	  = 0;
-	height 	  = 0;
-	frameRate   = 0;
-	bitRate     = 0;
-	numBuffers  = 4;
-	loop        = 0;
-	rtspLatency = 2000;
-	zeroCopy    = true;
-	ioType      = INPUT;
-	deviceType  = DEVICE_DEFAULT;
-	flipMethod  = FLIP_DEFAULT;
-	codec       = CODEC_UNKNOWN;
+    width = 0;
+    height = 0;
+    frameRate = 0;
+    bitRate = 0;
+    wbmode = GST_NVCAM_WB_MODE_AUTO;
+    saturation: 1;
+    exposuretimerange = nullptr;
+    gainrange = nullptr;
+    exposurecompensation = 0;
+    aelock = false;
+    awblock = false;
+    numBuffers = 4;
+    loop = 0;
+    rtspLatency = 2000;
+    zeroCopy = true;
+    ioType = INPUT;
+    deviceType = DEVICE_DEFAULT;
+    flipMethod = FLIP_DEFAULT;
+    codec = CODEC_UNKNOWN;
 }
 
 
@@ -57,18 +64,25 @@ void videoOptions::Print( const char* prefix ) const
 	LogInfo("------------------------------------------------\n");
 	resource.Print("  ");
 
-	LogInfo("  -- deviceType: %s\n", DeviceTypeToStr(deviceType));
-	LogInfo("  -- ioType:     %s\n", IoTypeToStr(ioType));
-	LogInfo("  -- codec:      %s\n", CodecToStr(codec));
-	LogInfo("  -- width:      %u\n", width);
-	LogInfo("  -- height:     %u\n", height);
-	LogInfo("  -- frameRate:  %f\n", frameRate);
-	LogInfo("  -- bitRate:    %u\n", bitRate);
-	LogInfo("  -- numBuffers: %u\n", numBuffers);
-	LogInfo("  -- zeroCopy:   %s\n", zeroCopy ? "true" : "false");	
-	LogInfo("  -- flipMethod: %s\n", FlipMethodToStr(flipMethod));
-	LogInfo("  -- loop:       %i\n", loop);
-	LogInfo("  -- rtspLatency %i\n", rtspLatency);
+	LogInfo("  -- deviceType:           %s\n", DeviceTypeToStr(deviceType));
+	LogInfo("  -- ioType:               %s\n", IoTypeToStr(ioType));
+	LogInfo("  -- codec:                %s\n", CodecToStr(codec));
+	LogInfo("  -- width:                %u\n", width);
+	LogInfo("  -- height:               %u\n", height);
+	LogInfo("  -- frameRate:            %f\n", frameRate);
+	LogInfo("  -- bitRate:              %u\n", bitRate);
+	LogInfo("  -- wbmode:               %s\n", WbModeToStr(wbmode));
+	LogInfo("  -- saturation:           %f\n", saturation);
+	LogInfo("  -- exposuretimerange:    %s\n", exposuretimerange);
+	LogInfo("  -- gainrange:            %s\n", gainrange);
+	LogInfo("  -- exposurecompensation: %f\n", exposurecompensation);
+	LogInfo("  -- aelock:               %s\n", aelock ? "true" : "false");
+	LogInfo("  -- awblock:              %s\n", awblock ? "true" : "false");
+	LogInfo("  -- numBuffers:           %u\n", numBuffers);
+	LogInfo("  -- zeroCopy:             %s\n", zeroCopy ? "true" : "false");
+	LogInfo("  -- flipMethod:           %s\n", FlipMethodToStr(flipMethod));
+	LogInfo("  -- loop:                 %i\n", loop);
+	LogInfo("  -- rtspLatency           %i\n", rtspLatency);
 	
 	LogInfo("------------------------------------------------\n");
 }
@@ -166,7 +180,29 @@ bool videoOptions::Parse( const char* URI, const commandLine& cmdLine, videoOpti
 
 	// RTSP latency
 	rtspLatency = cmdLine.GetUnsignedInt("input-rtsp-latency", rtspLatency);
-	
+
+    //WbMode
+    const char* wbModeStr = cmdLine.GetString("wbmode");
+    wbmode = videoOptions::WbModeFromStr(wbModeStr);
+
+    //saturation
+    saturation = cmdLine.GetFloat("saturation");
+
+    //exposuretimerange
+    exposuretimerange = cmdLine.GetString("exposuretimerange");
+
+    //gainrange
+    gainrange = cmdLine.GetString("exposuretimerange");
+
+    //exposurecompensation
+    exposurecompensation = cmdLine.GetFloat("exposurecompensation");
+
+    //aelock
+    aelock = cmdLine.GetFlag("aelock");
+
+    //awblock
+    awblock = cmdLine.GetFlag("awblock");
+
 	return true;
 }
 
@@ -275,6 +311,43 @@ videoOptions::DeviceType videoOptions::DeviceTypeFromStr( const char* str )
 	}
 
 	return DEVICE_DEFAULT;
+}
+
+// WbModeToStr
+const char* videoOptions::WbModeToStr( videoOptions::WbMode type )
+{
+	switch(type)
+	{
+		case GST_NVCAM_WB_MODE_OFF:	                return "off";
+		case GST_NVCAM_WB_MODE_AUTO:                return "auto";
+		case GST_NVCAM_WB_MODE_INCANDESCENT:        return "incandescent";
+		case GST_NVCAM_WB_MODE_FLUORESCENT:         return "fluorescent";
+		case GST_NVCAM_WB_MODE_WARM_FLUORESCENT:    return "warm-fluorescent";
+		case GST_NVCAM_WB_MODE_DAYLIGHT:            return "daylight";
+		case GST_NVCAM_WB_MODE_CLOUDY_DAYLIGHT:     return "cloudy-daylight";
+		case GST_NVCAM_WB_MODE_TWILIGHT:            return "twilight";
+		case GST_NVCAM_WB_MODE_SHADE:               return "shade";
+		case GST_NVCAM_WB_MODE_MAN:	                return "manual";
+	}
+	return nullptr;
+}
+
+
+// WbModeFromStr
+videoOptions::WbMode videoOptions::WbModeFromStr( const char* str )
+{
+	if( !str )
+		return GST_NVCAM_WB_MODE_AUTO;
+
+	for( int n=0; n <= GST_NVCAM_WB_MODE_MAN; n++ )
+	{
+		const WbMode value = (WbMode)n;
+
+		if( strcasecmp(str, WbModeToStr(value)) == 0 )
+			return value;
+	}
+
+	return GST_NVCAM_WB_MODE_AUTO;
 }
 
 
