@@ -101,6 +101,7 @@ bool videoOptions::Parse( const char* URI, const int argc, char** argv, videoOpt
 // Parse
 bool videoOptions::Parse( const char* URI, const commandLine& cmdLine, videoOptions::IoType type )
 {
+    LogInfo("Parsing..");
 	ioType = type;
 
 	// check for headless mode
@@ -203,6 +204,8 @@ bool videoOptions::Parse( const char* URI, const commandLine& cmdLine, videoOpti
 
     //awblock
     awblock = cmdLine.GetFlag("awblock");
+
+    LogInfo("Parsing completed")
 
 	return true;
 }

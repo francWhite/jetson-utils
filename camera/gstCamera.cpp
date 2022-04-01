@@ -141,6 +141,8 @@ bool gstCamera::buildLaunchStr()
 			mOptions.flipMethod = videoOptions::FLIP_ROTATE_180;
 		else if( mOptions.flipMethod == videoOptions::FLIP_ROTATE_180 )
 			mOptions.flipMethod = videoOptions::FLIP_NONE;
+
+        LogInfo(ss << "nvarguscamerasrc sensor-id=" << mOptions.resource.port << ", wbmode=" << mOptions.wbmode << ", saturation=" << mOptions.saturation << ", exposuretimerange=\"" << mOptions.exposuretimerange << "\", gainrange=\"" << mOptions.gainrange <<"\", exposurecompensation=" << mOptions.exposurecompensation << ", aelock=" << mOptions.aelock << ", awblock=" << mOptions.awblock << "  ! video/x-raw(memory:NVMM), width=(int)" << GetWidth() << ", height=(int)" << GetHeight() << ", framerate=" << (int)mOptions.frameRate << "/1, format=(string)NV12 ! nvvidconv flip-method=" << mOptions.flipMethod << " ! ");
 	
 		ss << "nvarguscamerasrc sensor-id=" << mOptions.resource.port << ", wbmode=" << mOptions.wbmode << ", saturation=" << mOptions.saturation << ", exposuretimerange=\"" << mOptions.exposuretimerange << "\", gainrange=\"" << mOptions.gainrange <<"\", exposurecompensation=" << mOptions.exposurecompensation << ", aelock=" << mOptions.aelock << ", awblock=" << mOptions.awblock << "  ! video/x-raw(memory:NVMM), width=(int)" << GetWidth() << ", height=(int)" << GetHeight() << ", framerate=" << (int)mOptions.frameRate << "/1, format=(string)NV12 ! nvvidconv flip-method=" << mOptions.flipMethod << " ! ";
 	#else
