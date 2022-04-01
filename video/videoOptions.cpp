@@ -35,8 +35,8 @@ videoOptions::videoOptions()
     bitRate = 0;
     wbmode = GST_NVCAM_WB_MODE_AUTO;
     saturation: 1;
-    exposuretimerange = nullptr;
-    gainrange = nullptr;
+    exposuretimerange = NULL;
+    gainrange = NULL;
     exposurecompensation = 0;
     aelock = false;
     awblock = false;
@@ -189,10 +189,12 @@ bool videoOptions::Parse( const char* URI, const commandLine& cmdLine, videoOpti
     saturation = cmdLine.GetFloat("saturation");
 
     //exposuretimerange
-    exposuretimerange = cmdLine.GetString("exposuretimerange");
+    const char* exposuretimerangeStr = cmdLine.GetString("exposuretimerange");
+    exposuretimerange = exposuretimerangeStr;
 
     //gainrange
-    gainrange = cmdLine.GetString("exposuretimerange");
+    const char* gainrangeStr = cmdLine.GetString("exposuretimerange");
+    gainrange = gainrangeStr;
 
     //exposurecompensation
     exposurecompensation = cmdLine.GetFloat("exposurecompensation");
